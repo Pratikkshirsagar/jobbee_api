@@ -3,11 +3,17 @@ const app = express();
 
 const dotenv = require('dotenv');
 
+const conectDatabase = require('./config/db');
+
 // Setting up config.env variables
 dotenv.config({ path: './config/config.env' });
 
+// connecting to db
+conectDatabase();
+
 // Importing all Routes
 const jobs = require('./routes/jobs');
+const connectDatabase = require('./config/db');
 
 app.use('/api/v1', jobs);
 
