@@ -6,8 +6,13 @@ const dotenv = require('dotenv');
 // Setting up config.env variables
 dotenv.config({ path: './config/config.env' });
 
+// Importing all Routes
+const jobs = require('./routes/jobs');
+
+app.use('/api/v1', jobs);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on PORT ${PORT}`);
+  console.log(`Server running on PORT ${PORT} in ${process.env.NODE_ENV} mode`);
 });
