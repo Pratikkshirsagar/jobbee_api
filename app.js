@@ -11,6 +11,9 @@ dotenv.config({ path: './config/config.env' });
 // connecting to db
 conectDatabase();
 
+// set up bodyparser
+app.use(express.json());
+
 const middelware = (req, res, next) => {
   console.log('Hello from middleware');
   req.user = 'Pratik Kshirsagar';
