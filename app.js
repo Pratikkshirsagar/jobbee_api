@@ -13,7 +13,6 @@ conectDatabase();
 
 // Importing all Routes
 const jobs = require('./routes/jobs');
-const connectDatabase = require('./config/db');
 
 app.use('/api/v1', jobs);
 
