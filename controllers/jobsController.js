@@ -62,9 +62,7 @@ exports.deleteJob = catchAsyncErrors(async (req, res, next) => {
   let job = await Job.findById(req.params.id);
 
   if (!job) {
-    return res
-      .status(400)
-      .json({ success: false, message: 'Canot find job with that id' });
+    return next(new ErrorHandler('Job not found', 404));
   }
 
   await Job.findByIdAndDelete(req.params.id);

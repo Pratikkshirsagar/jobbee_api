@@ -32,6 +32,15 @@ app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT} in ${process.env.NODE_ENV} mode`);
+});
+
+// Handling Unhandled Promise rejection
+process.on('unhandledRejection', (err) => {
+  console.log(`Error: ${err.message}`);
+  console.log(`Shutting down the server due to unhandler promise rejection`);
+  server.close(() => {
+    process.exit(1);
+  });
 });
