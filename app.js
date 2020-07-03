@@ -8,6 +8,13 @@ const errorMiddleware = require('./middleware/errors');
 // Setting up config.env variables
 dotenv.config({ path: './config/config.env' });
 
+// handling Uncatch Exception
+process.on('uncaughtException', (err) => {
+  console.log(`Error: ${err.message}`);
+  console.log(`Shutting down the server due to uncatch exception.`);
+  process.exit();
+});
+
 // connecting to db
 conectDatabase();
 
