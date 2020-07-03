@@ -125,3 +125,37 @@ exports.getJobsInRadius = async (req, res, next) => {
     console.log(err);
   }
 };
+
+// Get stats about a topic(job) => /api/v1/status/:topic
+exports.jobStats = async (req, res, next) => {
+  try {
+    const stats = await Job.aggregate([
+      {
+        $match: { $text: { $search: '"' + req.params.topic + '"' } },
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$experience' },
+          totalJobs: { $sum: 1 },
+          avgPosition: { $avg: '$positions' },
+          avgSalary: { $avg: '$salary' },
+          minSalary: { $min: '$salary' },
+          maxSalary: { $max: '$salary' },
+        },
+      },
+    ]);
+
+    if (stats.length === 0) {
+      return next(
+        new ErrorHandler(`No stats found for - ${req.params.topic}`, 200)
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      data: stats,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
