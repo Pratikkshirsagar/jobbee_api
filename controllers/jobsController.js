@@ -1,5 +1,6 @@
 const Job = require('../models/jobs');
 const geoCoder = require('../utils/geocoder');
+const ErrorHandler = require('../utils/errorHandler');
 
 // Get all jobs => /api/v1/jobs
 exports.getJobs = async (req, res, next) => {
@@ -23,9 +24,7 @@ exports.getJob = async (req, res, next) => {
     });
 
     if (!job || job.length === 0) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Canot find job with that id' });
+      return next(new ErrorHandler('Job not found', 404));
     }
 
     res.status(200).json({
@@ -58,9 +57,7 @@ exports.updateJob = async (req, res, next) => {
     let job = await Job.findById(req.params.id);
 
     if (!job) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Canot find job with that id' });
+      return next(new ErrorHandler('Job not found', 404));
     }
 
     job = await Job.findByIdAndUpdate(req.params.id, req.body, {
