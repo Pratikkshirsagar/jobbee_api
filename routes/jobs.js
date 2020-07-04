@@ -12,12 +12,12 @@ const {
 } = require('../controllers/jobsController');
 const { get } = require('mongoose');
 
-router.route('/jobs').get(getJobs).post(createJob);
+router.route('/').get(getJobs).post(createJob);
 
-router.route('/jobs/:id').put(updateJob).delete(deleteJob);
+router.route('/:id').put(updateJob).delete(deleteJob);
 
-router.route('/jobs/:id/:slug').get(getJob);
+router.route('/:id/:slug').get(getJob);
 
-router.route('/jobs/:zipcode/:distance').get(getJobsInRadius);
+router.route('/:zipcode/:distance').get(getJobsInRadius);
 
 module.exports = router;
